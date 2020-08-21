@@ -1,0 +1,77 @@
+
+
+
+<script>
+	function put(whatever){
+		nudiv = document.createElement('div');
+		nudiv.innerText = whatever;
+		document.body.appendChild(nudiv);
+	}
+	function createTable(tableData) {
+	  var table = document.createElement('table');
+	  var tableBody = document.createElement('tbody');
+
+	  for(let xx = 0; xx<tableData.length; xx++){
+	    let rowData = tableData[xx];
+	    var row = document.createElement('tr');
+
+	    for(let xx = 0; xx<rowData.length; xx++){
+	      let cellData = rowData[xx];
+	      var cell = document.createElement('td');
+	      cell.appendChild(document.createTextNode(cellData));
+	      row.appendChild(cell);
+	    }
+
+	    tableBody.appendChild(row);
+	  }
+
+	  table.appendChild(tableBody);
+	  document.body.appendChild(table);
+	}
+	function factorial(n){
+		if (n>1){
+			return(n*factorial(n-1));
+		}else{
+			return(1);
+		}
+	}
+	function comb(n,k){
+		return( factorial(n) / (factorial(k) * factorial(n-k)) );
+	}
+	function ways(n,f,t){
+		if(f>t){
+			return(comb(f,f-t));
+		}else if(f<t){
+			return(comb(n-f,t-f));
+		}else{
+			return(0);
+		}
+	}
+	function foo(){
+		let numKeys = parseInt(document.getElementById('keys').value);
+		let seqLen = parseInt(document.getElementById('seqLen').value);
+		console.log(numKeys);
+		put(numKeys);
+		numbz = [["",""]];
+		for (ii = 1; ii<=numKeys; ii++){
+			numbz[0].push(ii);
+		}
+		numbz.push(["","+"]);
+		for (ii = 1; ii<=numKeys; ii++){
+			numbz[1].push("-");
+		}
+		for (ii = 1; ii<=numKeys; ii++){
+			numbz.push([ii,"|"]);
+			for (jj = 1; jj<=numKeys; jj++){
+				numbz[ii+1].push(ways(numKeys,ii,jj));
+			}
+		}
+		console.log(numbz);
+		createTable(numbz);
+	}
+</script>
+<body>
+	<input id='keys'></input>
+	<input id='seqLen'></input>
+	<button onclick="foo();">go</button>
+</body>
