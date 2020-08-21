@@ -66,15 +66,16 @@
 			put("Transition map for "+numKeys+" keys:");
 			numbz = [["",""]];
 			seq = [];
-			for (ii = 1; ii<=numKeys; ii++){
+			for (ii = 0; ii<=numKeys; ii++){
 				seq.push(0)
 				numbz[0].push(ii);
 			}
 			seq[0]=1;
 			numbz.push(["","+"]);
-			for (ii = 1; ii<=numKeys; ii++){
+			for (ii = 0; ii<=numKeys; ii++){
 				numbz[1].push("-");
 			}
+
 			//// build transition map
 			console.log(Date.now());
 			for (ii = 0; ii<=numKeys; ii++){
@@ -84,11 +85,12 @@
 				}
 			}
 			console.log(Date.now());
+
 			//// build transition map printout
-			for (ii = 1; ii<=numKeys; ii++){
+			for (ii = 0; ii<=numKeys; ii++){
 				numbz.push([ii,"|"]);
-				for (jj = 1; jj<=numKeys; jj++){
-					numbz[ii+1].push(transitionMap[ii][jj]);
+				for (jj = 0; jj<=numKeys; jj++){
+					numbz[ii+2].push(transitionMap[ii][jj]);
 				}
 			}
 			console.log(Date.now());
