@@ -57,16 +57,20 @@
 	transitionMap = null;
 	function foo(){
 		let numKeys = parseInt(document.getElementById('keys').value);
-		let seqLen = parseInt(document.getElementById('seqLen').value);
+		let seqButton = document.getElementById('seqLen')
+		let seq = JSON.parse(seqButton.value);
 		if(numKeys != previousNumKeys){
 			previousNumKeys = numKeys;
 			transitionMap = []
 
 			put("Transition map for "+numKeys+" keys:");
 			numbz = [["",""]];
+			seq = [];
 			for (ii = 1; ii<=numKeys; ii++){
+				seq.push(0)
 				numbz[0].push(ii);
 			}
+			seq[0]=1;
 			numbz.push(["","+"]);
 			for (ii = 1; ii<=numKeys; ii++){
 				numbz[1].push("-");
@@ -91,6 +95,11 @@
 			console.log(transitionMap)
 			createTable(numbz);
 		}
+		for (ii=0;ii<seq.length;ii++){
+			/// here is about the place that I would like to not be implementing matrix multiplication myself.
+		}
+		put(JSON.stringify(seq));
+		seqButton.value = JSON.stringify(seq);
 	}
 </script>
 <body>
