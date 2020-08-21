@@ -5,7 +5,10 @@
 	function put(whatever){
 		nudiv = document.createElement('div');
 		nudiv.innerText = whatever;
-		document.body.appendChild(nudiv);
+		document.body.insertBefore(
+			nudiv, document.getElementById('menu')
+			);
+		window.scrollTo(0,document.body.scrollHeight);
 	}
 	function createTable(tableData) {
 	  var table = document.createElement('table');
@@ -26,7 +29,10 @@
 	  }
 
 	  table.appendChild(tableBody);
-	  document.body.appendChild(table);
+	  document.body.insertBefore(
+		  table, document.getElementById('menu')
+		  );
+	  window.scrollTo(0,document.body.scrollHeight);
 	}
 	function factorial(n){
 		if (n>1){
@@ -51,7 +57,7 @@
 		let numKeys = parseInt(document.getElementById('keys').value);
 		let seqLen = parseInt(document.getElementById('seqLen').value);
 		console.log(numKeys);
-		put(numKeys);
+		put("Transition map for "+numKeys+" keys:");
 		numbz = [["",""]];
 		for (ii = 1; ii<=numKeys; ii++){
 			numbz[0].push(ii);
@@ -71,7 +77,9 @@
 	}
 </script>
 <body>
-	<input id='keys'></input>
-	<input id='seqLen'></input>
-	<button onclick="foo();">go</button>
+	<div id="menu">
+		<input id='keys'></input>
+		<input id='seqLen'></input>
+		<button onclick="foo();">go</button>
+	</div>
 </body>
