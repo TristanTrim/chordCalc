@@ -53,32 +53,51 @@
 			return(0);
 		}
 	}
+	previousNumKeys = 0;
+	transitionMap = null;
 	function foo(){
 		let numKeys = parseInt(document.getElementById('keys').value);
 		let seqLen = parseInt(document.getElementById('seqLen').value);
-		console.log(numKeys);
-		put("Transition map for "+numKeys+" keys:");
-		numbz = [["",""]];
-		for (ii = 1; ii<=numKeys; ii++){
-			numbz[0].push(ii);
-		}
-		numbz.push(["","+"]);
-		for (ii = 1; ii<=numKeys; ii++){
-			numbz[1].push("-");
-		}
-		for (ii = 1; ii<=numKeys; ii++){
-			numbz.push([ii,"|"]);
-			for (jj = 1; jj<=numKeys; jj++){
-				numbz[ii+1].push(ways(numKeys,ii,jj));
+		if(numKeys != previousNumKeys){
+			previousNumKeys = numKeys;
+			transitionMap = []
+
+			put("Transition map for "+numKeys+" keys:");
+			numbz = [["",""]];
+			for (ii = 1; ii<=numKeys; ii++){
+				numbz[0].push(ii);
 			}
+			numbz.push(["","+"]);
+			for (ii = 1; ii<=numKeys; ii++){
+				numbz[1].push("-");
+			}
+			//// build transition map
+			console.log(Date.now());
+			for (ii = 0; ii<=numKeys; ii++){
+				transitionMap.push([]);
+				for (jj = 0; jj<=numKeys; jj++){
+					transitionMap[ii].push(Math.round(ways(numKeys,ii,jj)));
+				}
+			}
+			console.log(Date.now());
+			//// build transition map printout
+			for (ii = 1; ii<=numKeys; ii++){
+				numbz.push([ii,"|"]);
+				for (jj = 1; jj<=numKeys; jj++){
+					numbz[ii+1].push(transitionMap[ii][jj]);
+				}
+			}
+			console.log(Date.now());
+			console.log(transitionMap)
+			createTable(numbz);
 		}
-		console.log(numbz);
-		createTable(numbz);
 	}
 </script>
 <body>
 	<div id="menu">
+		total keys:
 		<input id='keys'></input>
+		cf:
 		<input id='seqLen'></input>
 		<button onclick="foo();">go</button>
 	</div>
