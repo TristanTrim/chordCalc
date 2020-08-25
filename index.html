@@ -69,12 +69,12 @@
         if (!Array.isArray(seq)){
 			seq = [];
 			for (ii = 0; ii<=numKeys; ii++){
-				seq.push(0)
+				seq.push(0);
             }
 			seq[0]=1;
             tranCnt=0;
             put("Reset seqs:");
-            put("Seqs("+tranCnt+"): "+JSON.stringify(seq));
+            put("Seqs("+tranCnt+"): "+JSON.stringify(seq).replaceAll(",",", "));
         }
 
 		if(numKeys != previousNumKeys){
@@ -87,7 +87,7 @@
 			seq = [];
             tranCnt=0;
 			for (ii = 0; ii<=numKeys; ii++){
-				seq.push(0)
+				seq.push(0);
 				numbz[0].push(ii);
 			}
 			seq[0]=1;
@@ -116,7 +116,7 @@
 			console.log(Date.now());
 			console.log(transitionMap)
 			createTable(numbz);
-            put("Seqs("+tranCnt+"): "+JSON.stringify(seq));
+            put("Seqs("+tranCnt+"): "+JSON.stringify(seq).replaceAll(",",", "));
 		}
 
         //// calculate next combo distribution
@@ -128,8 +128,8 @@
             }
 		}
         tranCnt++;
-        put("Seqs("+tranCnt+"): "+JSON.stringify(result));
-		seqButton.value = JSON.stringify(result);
+        put("Seqs("+tranCnt+"): "+JSON.stringify(result).replaceAll(",",", "));
+		seqButton.value = JSON.stringify(result).replaceAll(",",", ");
         tranButton.value = tranCnt;
 	}
 </script>
