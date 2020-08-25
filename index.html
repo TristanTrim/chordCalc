@@ -57,15 +57,35 @@
 	transitionMap = null;
 	function foo(){
 		let numKeys = parseInt(document.getElementById('keys').value);
-		let seqButton = document.getElementById('seqLen')
-		let seq = JSON.parse(seqButton.value);
+		let seqButton = document.getElementById('seqLen');
+		let tranButton = document.getElementById('tranCnt');
+        let tranCnt = parseInt(tranButton.value);
+        if(!Number.isInteger(tranCnt)){tranCnt = 0;}
+		let seq;
+        try {
+            seq = JSON.parse(seqButton.value);
+        }catch{}
+
+        if (!Array.isArray(seq)){
+			seq = [];
+			for (ii = 0; ii<=numKeys; ii++){
+				seq.push(0)
+            }
+			seq[0]=1;
+            tranCnt=0;
+            put("Reset seqs:");
+            put("Seqs("+tranCnt+"): "+JSON.stringify(seq));
+        }
+
 		if(numKeys != previousNumKeys){
 			previousNumKeys = numKeys;
 			transitionMap = []
 
+            put("-------------------------");
 			put("Transition map for "+numKeys+" keys:");
 			numbz = [["",""]];
 			seq = [];
+            tranCnt=0;
 			for (ii = 0; ii<=numKeys; ii++){
 				seq.push(0)
 				numbz[0].push(ii);
@@ -96,18 +116,29 @@
 			console.log(Date.now());
 			console.log(transitionMap)
 			createTable(numbz);
+            put("Seqs("+tranCnt+"): "+JSON.stringify(seq));
 		}
+
+        //// calculate next combo distribution
+        result = [];
+		for (ii=0;ii<seq.length;ii++) result.push(0);
 		for (ii=0;ii<seq.length;ii++){
-			/// here is about the place that I would like to not be implementing matrix multiplication myself.
+            for (jj = 0; jj<=numKeys; jj++){
+                result[ii]+=seq[jj]*transitionMap[jj][ii];
+            }
 		}
-		put(JSON.stringify(seq));
-		seqButton.value = JSON.stringify(seq);
+        tranCnt++;
+        put("Seqs("+tranCnt+"): "+JSON.stringify(result));
+		seqButton.value = JSON.stringify(result);
+        tranButton.value = tranCnt;
 	}
 </script>
 <body>
 	<div id="menu">
 		total keys:
 		<input id='keys'></input>
+		tc:
+		<input id='tranCnt'></input>
 		cf:
 		<input id='seqLen'></input>
 		<button onclick="foo();">go</button>
