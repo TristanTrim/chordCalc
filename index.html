@@ -12,6 +12,7 @@
 	}
 	function createTable(tableData) {
 	  var table = document.createElement('table');
+	  table.style.textAlign='right';
 	  var tableBody = document.createElement('tbody');
 
 	  for(let xx = 0; xx<tableData.length; xx++){
@@ -80,6 +81,7 @@
 		if(numKeys != previousNumKeys){
 			previousNumKeys = numKeys;
 			transitionMap = []
+			result_list = [["",""],["",""]];
 
             put("-------------------------");
 			put("Transition map for "+numKeys+" keys:");
@@ -89,6 +91,8 @@
 			for (ii = 0; ii<=numKeys; ii++){
 				seq.push(0);
 				numbz[0].push(ii);
+				result_list[0].push(ii);
+				result_list[1].push("---");
 			}
 			seq[0]=1;
 			numbz.push(["","+"]);
@@ -116,20 +120,38 @@
 			console.log(Date.now());
 			console.log(transitionMap)
 			createTable(numbz);
-            put("Seqs("+tranCnt+"): "+JSON.stringify(seq).replaceAll(",",", "));
+			put("\nChord transition sequences:")
+            put("Seqs("+tranCnt+"): "+JSON.stringify(seq).replaceAll(",",", "));//sacraficial
+			result_list.push([tranCnt,"|"].concat(seq));
+			tranCnt++;
 		}
 
         //// calculate next combo distribution
         result = [];
 		for (ii=0;ii<seq.length;ii++) result.push(0);
-		for (ii=0;ii<seq.length;ii++){
-            for (jj = 0; jj<=numKeys; jj++){
-                result[ii]+=seq[jj]*transitionMap[jj][ii];
-            }
-		}
+
+		// only on the first transition do we count the transitions
+		// from zero keys pressed, otherwise, that would be starting
+		// a second sequence.
+                if(tranCnt == 1){
+                        for (ii=0;ii<seq.length;ii++){
+                            for (jj = 0; jj<=numKeys; jj++){
+                                result[ii]+=seq[jj]*transitionMap[jj][ii];
+                            }
+                        }
+                }else{
+                        for (ii=0;ii<seq.length;ii++){
+                            for (jj = 1; jj<=numKeys; jj++){
+                                result[ii]+=seq[jj]*transitionMap[jj][ii];
+                            }
+                        }
+                }
+	result_list.push([tranCnt,"|"].concat(result));
         tranCnt++;
-        put("Seqs("+tranCnt+"): "+JSON.stringify(result).replaceAll(",",", "));
-		seqButton.value = JSON.stringify(result).replaceAll(",",", ");
+	document.getElementById("menu").previousSibling.remove()
+        //put("Seqs("+tranCnt+"): "+JSON.stringify(result).replaceAll(",",", "));
+	createTable(result_list);
+	seqButton.value = JSON.stringify(result).replaceAll(",",", ");
         tranButton.value = tranCnt;
 	}
 </script>
